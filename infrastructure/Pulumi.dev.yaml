@@ -1,0 +1,9 @@
+config:
+  akskickstart:applicationGatewayTier: Standard_v2
+  akskickstart:defaultImage: nginx
+  akskickstart:windows:
+    enabled: false
+  akskickstart:kubernetesVersion: 1.18.8
+  akskickstart:location: WestEurope
+  akskickstart:logSuffix: "2"
+  akskickstart:name: akskickstart1
