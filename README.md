@@ -8,7 +8,7 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 
 ## Pre-Requisites
 - pulumi cli
-- az cli
+- azure cli
 - kubectl
 - helm
 
