@@ -22,4 +22,47 @@ cd AksKickStarters/infrastructure
 
 pulumi up 
 ```
+After a while the deployment shoud be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
+If you visit that address you should see the default nginx welcome page.
+
+## Adding SSL certificates from Keyvault
+You can link you ssl certificates from keyvault by adding them to the pulumi configuration. 
+```
+pulumi config set --path pulumi config set --path keyVaultResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.KeyVault/vaults/<keyvault-name>
+pulumi config set --path sslCertificates[0].name <ssl-certificate-name>
+pulumi config set --path sslCertificates[0].secret https://<keyvault-name>.vault.azure.net/secrets/<certificate-name>
+```
+
+
+You should then be able to create an ingress to use the certificate as follows
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: aspnetapp
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: <ssl-certificate-name>
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  rules:
+  ...
+```
+
+## Linking Azure Container Registry
+You can allow aks to use your own container registry to do this run the following command:
+
+`pulumi config set --path acrResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.ContainerRegistry/registries/<registry-name>`
+
+## Configuration
+
+
+## Issues
+
+- Runnning `pulumi destroy` will give you the following error  `error: 'azureassignedidentities.aadpodidentity.k8s.io' timed out waiting to be Ready`. The only way to get arround this is to export the stack and remove the offending item and then import the stack again. See [pulumi stack](https://www.pulumi.com/docs/reference/cli/pulumi_stack/) for more info.
+
+- If you try and recreate the deployment after having removed it, it will fail because of a a naming collision on the analytics workspace. As a workarroung you can change the stack name or set aad a suffix to the analytics workspace name by running the following command `pulumi config set --path logSuffix 1` 
+
+
+
 
