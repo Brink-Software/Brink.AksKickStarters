@@ -51,8 +51,9 @@ spec:
 
 ## Linking Azure Container Registry
 You can allow aks to use your own container registry to do this run the following command:
-
-`pulumi config set --path acrResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.ContainerRegistry/registries/<registry-name>`
+```
+pulumi config set --path acrResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.ContainerRegistry/registries/<registry-name>
+```
 
 ## Configuration
 
