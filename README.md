@@ -15,13 +15,13 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 
 
 ## TLDR ;)
-Ensure that the azure cli is logged in. and that you have selected the subcription you wat to use
+Ensure that the azure cli is logged in and that you have selected the subcription you wat to use
 ```
 az login
 az account set -s <your-subcription>
 ```
 
-Ensure you have logged i to pulumi
+Ensure you have logged in to pulumi
 
 ```
 pulumi login
