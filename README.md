@@ -32,7 +32,7 @@ pulumi stack init dev
 
 pulumi up 
 ```
-After a while the deployment shoud be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
+After a while the deployment should be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
 If you visit that address you should see the default nginx welcome page.
 
 ## Adding SSL certificates from Keyvault
