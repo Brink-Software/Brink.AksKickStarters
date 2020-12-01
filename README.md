@@ -14,7 +14,7 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 
 
 
-## TLDR ;)
+## Getting started
 Ensure that the azure cli is logged in and that you have selected the subcription you wat to use
 ```
 az login
@@ -42,7 +42,10 @@ pulumi up
 Confirm update, and after a while the deployment should be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
 If you visit that address you should see the default nginx welcome page.
 
-## Adding SSL certificates from Keyvault
+## Optional steps 
+After adding the optional items you want you should run `pulumi up` to update your deployment. 
+
+### Add SSL certificates from Keyvault
 You can link you ssl certificates from keyvault by adding them to the pulumi configuration. 
 ```
 pulumi config set --path pulumi config set --path keyVaultResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.KeyVault/vaults/<keyvault-name>
@@ -51,7 +54,6 @@ pulumi config set --path "sslCertificates[0].name" <ssl-certificate-name>
 
 pulumi config set --path "sslCertificates[0].secret" https://<keyvault-name>.vault.azure.net/secrets/<certificate-name> --secret
 ```
-
 
 You should then be able to create an ingress to use the certificate as follows
 ```
@@ -68,13 +70,14 @@ spec:
   ...
 ```
 
-## Linking Azure Container Registry
+### Link Azure Container Registry
 You can allow aks to use your own container registry to do this run the following command:
 ```
 pulumi config set --path acrResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.ContainerRegistry/registries/<registry-name>
 ```
 
-## Adding windows pool
+
+### Add windows node pool
 You can add a windows node pool by running the following command:
 
 ```
