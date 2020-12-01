@@ -34,7 +34,7 @@ pulumi config set --path pulumi config set --path keyVaultResourceId /subscripti
 
 pulumi config set --path "sslCertificates[0].name" <ssl-certificate-name>
 
-pulumi config set --path "sslCertificates[0].secret" https://<keyvault-name>.vault.azure.net/secrets/<certificate-name>
+pulumi config set --path "sslCertificates[0].secret" https://<keyvault-name>.vault.azure.net/secrets/<certificate-name> --secret
 ```
 
 
