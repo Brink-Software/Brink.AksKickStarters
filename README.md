@@ -43,6 +43,7 @@ Confirm update, and after a while the deployment should be done and you should s
 If you visit that address you should see the default nginx welcome page.
 
 ## Optional steps 
+After adding the optional items you want you should run `pulumi up` to update your deployment. 
 
 ### Add SSL certificates from Keyvault
 You can link you ssl certificates from keyvault by adding them to the pulumi configuration. 
@@ -53,7 +54,6 @@ pulumi config set --path "sslCertificates[0].name" <ssl-certificate-name>
 
 pulumi config set --path "sslCertificates[0].secret" https://<keyvault-name>.vault.azure.net/secrets/<certificate-name> --secret
 ```
-
 
 You should then be able to create an ingress to use the certificate as follows
 ```
@@ -75,6 +75,7 @@ You can allow aks to use your own container registry to do this run the followin
 ```
 pulumi config set --path acrResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.ContainerRegistry/registries/<registry-name>
 ```
+
 
 ### Add windows node pool
 You can add a windows node pool by running the following command:
