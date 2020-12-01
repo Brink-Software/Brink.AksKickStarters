@@ -15,6 +15,19 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 
 
 ## TLDR ;)
+Ensure that the azure cli is logged in. and that you have selected the subcription you wat to use
+```
+az login
+az account set -s <your-subcription>
+```
+
+Ensure you have logged i to pulumi
+
+```
+pulumi login
+```
+Clone the project and start deployment
+
 ```
 git clone https://github.com/Ibis-Software/AksKickStarters.git
 
@@ -22,17 +35,11 @@ cd AksKickStarters/infrastructure
 
 npm install
 
-az login
-
-az account set -s <your-subcription>
-
-pulumi login
-
 pulumi stack init dev
 
 pulumi up 
 ```
-After a while the deployment should be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
+Confirm update, and after a while the deployment should be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
 If you visit that address you should see the default nginx welcome page.
 
 ## Adding SSL certificates from Keyvault
