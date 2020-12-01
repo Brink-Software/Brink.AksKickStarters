@@ -20,6 +20,8 @@ git clone https://github.com/Ibis-Software/AksKickStarters.git
 
 cd AksKickStarters/infrastructure
 
+npm install
+
 az login
 
 az account set -s <your-subcription>
