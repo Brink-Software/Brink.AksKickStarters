@@ -31,8 +31,10 @@ If you visit that address you should see the default nginx welcome page.
 You can link you ssl certificates from keyvault by adding them to the pulumi configuration. 
 ```
 pulumi config set --path pulumi config set --path keyVaultResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.KeyVault/vaults/<keyvault-name>
-pulumi config set --path sslCertificates[0].name <ssl-certificate-name>
-pulumi config set --path sslCertificates[0].secret https://<keyvault-name>.vault.azure.net/secrets/<certificate-name>
+
+pulumi config set --path "sslCertificates[0].name" <ssl-certificate-name>
+
+pulumi config set --path "sslCertificates[0].secret" https://<keyvault-name>.vault.azure.net/secrets/<certificate-name>
 ```
 
 
