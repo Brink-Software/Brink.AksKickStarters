@@ -14,7 +14,7 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 
 
 
-## TLDR ;)
+## Getting started
 Ensure that the azure cli is logged in and that you have selected the subcription you wat to use
 ```
 az login
