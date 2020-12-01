@@ -93,7 +93,6 @@ pulumi config set --path windows.enabled true
 
 - Runnning `pulumi destroy` will give you the following error  `error: 'azureassignedidentities.aadpodidentity.k8s.io' timed out waiting to be Ready`. The only way to get arround this is to export the stack and remove the offending item and then import the stack again. See [pulumi stack](https://www.pulumi.com/docs/reference/cli/pulumi_stack/) for more info.
 
-- If you try and recreate the deployment after having removed it, it will fail because of a a naming collision on the analytics workspace. As a workarroung you can change the stack name or set aad a suffix to the analytics workspace name by running the following command `pulumi config set --path logSuffix 1` 
 
 
 
