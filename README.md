@@ -20,6 +20,12 @@ git clone https://github.com/Ibis-Software/AksKickStarters.git
 
 cd AksKickStarters/infrastructure
 
+az login
+
+az account set -s <your-subcription>
+
+pulumi login
+
 pulumi stack init dev
 
 pulumi up 
