@@ -48,7 +48,7 @@ export const aadPodIdentity = new k8s.helm.v3.Chart(
   "aad-pod-identity",
   {
     chart: "aad-pod-identity",
-    version: "2.0.3",
+    version: "2.1.0",
     namespace: ns.id,
     fetchOpts: {
       repo:
