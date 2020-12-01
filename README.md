@@ -20,6 +20,8 @@ git clone https://github.com/Ibis-Software/AksKickStarters.git
 
 cd AksKickStarters/infrastructure
 
+pulumi stack init dev
+
 pulumi up 
 ```
 After a while the deployment shoud be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
@@ -55,7 +57,16 @@ You can allow aks to use your own container registry to do this run the followin
 pulumi config set --path acrResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.ContainerRegistry/registries/<registry-name>
 ```
 
+## Adding windows pool
+You can add a windows node pool by running the following command:
+
+```
+pulumi config set --path windows.enabled true
+```
+
+
 ## Configuration
+
 
 
 ## Issues
