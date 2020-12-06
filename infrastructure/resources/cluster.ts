@@ -7,14 +7,7 @@ import { workspace } from "./logs";
 import { clusterSubnet } from "./vnet";
 import env from "../environment";
 
-
-const {
-  resourceName,
-  resourceGroup,
-  deploymentName,
-  config,
-  Assignment
-}  = env;
+const { resourceName, resourceGroup, deploymentName, config, Assignment } = env;
 
 const kubernetesVersion = config.require("kubernetesVersion");
 const acrResourceId = config.get("acrResourceId");
@@ -27,29 +20,9 @@ const sshKey = new tls.PrivateKey("ssh-key", {
   rsaBits: 4096,
 });
 const managedClusterName = resourceName("aks");
-const nodesResourceGroupName = resourceGroup.name.apply(name => name + "-nodes");
-const windowsConfig = config.requireObject<WindowsConfig>("windows");
-const windowspool = windowsConfig.enabled
-  ? [
-      {
-        count: 1,
-        enableAutoScaling: true,
-        minCount: 1,
-        maxCount: 4,
-        maxPods: 30,
-        name: "win",
-        nodeLabels: {},
-        osType: "Windows",
-        osDiskType: "Ephemeral",
-        osDiskSizeGB: 30,
-        type: "VirtualMachineScaleSets",
-        vmSize: "Standard_D4s_v3",
-        vnetSubnetID: clusterSubnet.id,
-        nodeTaints: ["os=windows:NoSchedule"],
-      },
-    ]
-  : [];
-
+const nodesResourceGroupName = resourceGroup.name.apply(
+  (name) => name + "-nodes"
+);
 export const cluster = new azure.containerservice.latest.ManagedCluster(
   managedClusterName,
   {
@@ -69,7 +42,6 @@ export const cluster = new azure.containerservice.latest.ManagedCluster(
       },
     },
     agentPoolProfiles: [
-      ...windowspool,
       {
         count: 1,
         enableAutoScaling: true,
@@ -112,6 +84,29 @@ export const cluster = new azure.containerservice.latest.ManagedCluster(
     },
   }
 );
+
+const windowsConfig = config.requireObject<WindowsConfig>("windows");
+export const windowspool = windowsConfig.enabled ?new azure.containerservice.latest.AgentPool(
+  "windowspool",
+  {
+    agentPoolName: "win",
+    resourceGroupName: resourceGroup.name,
+    resourceName: cluster.name,
+    count: 1,
+    enableAutoScaling: true,
+    minCount: 1,
+    maxCount: 4,
+    maxPods: 30,
+    nodeLabels: {},
+    osType: "Windows",
+    osDiskType: "Ephemeral",
+    osDiskSizeGB: 30,
+    type: "VirtualMachineScaleSets",
+    vmSize: "Standard_D4s_v3",
+    vnetSubnetID: clusterSubnet.id,
+    nodeTaints: ["os=windows:NoSchedule"],
+  }
+) : undefined;
 export const clientId = cluster.identityProfile.apply(
   (identityProfile) => identityProfile?.kubeletidentity.objectId || ""
 );
@@ -140,7 +135,7 @@ export const kubeconfig = encoded.apply((enc) =>
 
 export const k8sProvider = new k8s.Provider("aksK8s", {
   kubeconfig,
-  suppressDeprecationWarnings: true
+  suppressDeprecationWarnings: true,
 });
 
 interface WindowsConfig {

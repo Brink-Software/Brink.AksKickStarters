@@ -1,5 +1,11 @@
 import * as k8s from "@pulumi/kubernetes";
-import { agic, sslCertificates, k8sProvider, publicIP } from "./resources";
+import {
+  agic,
+  sslCertificates,
+  k8sProvider,
+  windowspool,
+  publicIP,
+} from "./resources";
 
 const defaultBackend = "default-backend";
 const appLabels = {
@@ -100,5 +106,110 @@ const ingress = new k8s.networking.v1beta1.Ingress(
   },
   options
 );
+if (!!windowspool) {
+  const windowsOptions = { provider: k8sProvider, dependsOn: [agic, windowspool] };
+  const windowsDefaultBackend = "windows-default-backend";
+  const windowsAppLabels = {
+    app: windowsDefaultBackend,
+  };
+  const deployment = new k8s.apps.v1.Deployment(
+    windowsDefaultBackend,
+    {
+      metadata: {
+        name: windowsDefaultBackend,
+      },
+      spec: {
+        selector: {
+          matchLabels: windowsAppLabels,
+        },
+        replicas: 1,
+        template: {
+          metadata: {
+            name: windowsDefaultBackend,
+            labels: windowsAppLabels,
+          },
+          spec: {
+            containers: [
+              {
+                name: windowsDefaultBackend,
+                image: "mcr.microsoft.com/dotnet/framework/samples:aspnetapp",
+                ports: [
+                  {
+                    containerPort: 80,
+                  },
+                ],
+              },
+            ],
+            nodeSelector: {
+              "kubernetes.io/os": "windows",
+            },
+            tolerations: [
+              {
+                key: "os",
+                operator: "Equal",
+                value: "windows",
+                effect: "NoSchedule",
+              },
+            ],
+          },
+        },
+      },
+    },
+    windowsOptions
+  );
+  const service = new k8s.core.v1.Service(
+    windowsDefaultBackend,
+    {
+      metadata: {
+        name: windowsDefaultBackend,
+        labels: windowsAppLabels,
+      },
+      spec: {
+        type: "ClusterIP",
+        selector: windowsAppLabels,
+        ports: [
+          {
+            port: 80,
+            targetPort: 80,
+            protocol: "TCP",
+          },
+        ],
+      },
+    },
+    windowsOptions
+  );
+  const windowsAnnotations = {
+    "kubernetes.io/ingress.class": "azure/application-gateway",
+    "appgw.ingress.kubernetes.io/override-frontend-port": "8080",
+  };
+
+  const ingress = new k8s.networking.v1beta1.Ingress(
+    windowsDefaultBackend,
+    {
+      metadata: {
+        name: windowsDefaultBackend,
+        labels: windowsAppLabels,
+        annotations: windowsAnnotations,
+      },
+      spec: {
+        rules: [
+          {
+            http: {
+              paths: [
+                {
+                  backend: {
+                    serviceName: windowsDefaultBackend,
+                    servicePort: 80,
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    windowsOptions
+  );
+}
 
 export const publicIPAddress = publicIP.ipAddress;

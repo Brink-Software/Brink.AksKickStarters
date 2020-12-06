@@ -57,7 +57,7 @@ export const agic = new k8s.helm.v3.Chart(
   "ingress-azure",
   {
     chart: "ingress-azure",
-    version: "1.2.1",
+    version: "1.3.0",
     namespace: ns.id,
     values,
     fetchOpts: {
