@@ -42,11 +42,14 @@ pulumi up
 Confirm update, and after a while the deployment should be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
 If you visit that address you should see the default nginx welcome page.
 
+The resulting deployment looks something like this:
+![architecture drawing](./images/akskickstarter.PNG)
+
 ## Optional steps 
 After adding the optional items you want you should run `pulumi up` to update your deployment. 
 
 ### Add SSL certificates from Keyvault
-You can link you ssl certificates from keyvault by adding them to the pulumi configuration. 
+You can link you wildcard ssl certificates from keyvault by adding them to the pulumi configuration.   
 ```
 pulumi config set --path pulumi config set --path keyVaultResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.KeyVault/vaults/<keyvault-name>
 
