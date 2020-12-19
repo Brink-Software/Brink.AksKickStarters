@@ -7,7 +7,7 @@ import {
   publicIP,
 } from "./resources";
 
-const defaultBackend = "default-backend";
+const defaultBackend = "default-http-backend";
 const appLabels = {
   app: defaultBackend,
 };
