@@ -12,7 +12,7 @@ const virtualNetwork = new azure.network.latest.VirtualNetwork(
       addressPrefixes: ["10.0.0.0/8"],
     },
     location: env.resourceGroup.location,
-    resourceGroupName: resourceGroup.name,
+    resourceGroupName: resourceGroup.name
   }
 );
 

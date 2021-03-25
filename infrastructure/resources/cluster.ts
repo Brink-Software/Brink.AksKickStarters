@@ -10,7 +10,7 @@ import env from "../environment";
 const { resourceName, resourceGroup, deploymentName, config, Assignment } = env;
 
 const kubernetesVersion = config.require("kubernetesVersion");
-const acrResourceId = config.get("acrResourceId");
+
 const password = new random.RandomPassword("password", {
   length: 20,
   special: true,
@@ -85,8 +85,8 @@ export const cluster = new azure.containerservice.latest.ManagedCluster(
   }
 );
 
-const windowsConfig = config.requireObject<WindowsConfig>("windows");
-export const windowspool = windowsConfig.enabled ?new azure.containerservice.latest.AgentPool(
+const windowsConfig = config.getObject<WindowsConfig>("windows");
+export const windowspool = windowsConfig?.enabled ?new azure.containerservice.latest.AgentPool(
   "windowspool",
   {
     agentPoolName: "win",
@@ -110,8 +110,26 @@ export const windowspool = windowsConfig.enabled ?new azure.containerservice.lat
 export const clientId = cluster.identityProfile.apply(
   (identityProfile) => identityProfile?.kubeletidentity.objectId || ""
 );
+const includeContainerRegistry = config.getBoolean("includeContainerRegistry");
+if(includeContainerRegistry){
+  const acrName = new random.RandomUuid("acr-suffic").result.apply(uuid => "arc" + uuid.replace('-', '').substring(0,6));
+  const acr = new azure.containerregistry.latest.Registry("acr", {
+    registryName : acrName,
+    resourceGroupName: resourceGroup.name,
+    sku : {
+      name : "Basic"
+    }
+  });
+  const _ = new Assignment("ra-acr-aks2", {
+    principalId: clientId,
+    scope: acr.id,
+    roleDefinitionName: "AcrPull",
+  });
+}
+
+const acrResourceId = config.get("acrResourceId");
 if (acrResourceId) {
-  const _ = new Assignment("ra-acr-aks", {
+  const _ = new Assignment("ra-acr-aks2", {
     principalId: clientId,
     scope: acrResourceId,
     roleDefinitionName: "AcrPull",

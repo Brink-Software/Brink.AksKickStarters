@@ -1,8 +1,7 @@
 config:
   akskickstart:applicationGatewayTier: Standard_v2
   akskickstart:defaultImage: nginx
-  akskickstart:kubernetesVersion: 1.18.8
+  akskickstart:includeContainerRegistry: "true"
+  akskickstart:kubernetesVersion: 1.19.7
   akskickstart:location: WestEurope
   akskickstart:name: akskickstart
-  akskickstart:windows:
-    enabled: true

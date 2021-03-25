@@ -2,7 +2,7 @@ import * as azure from "@pulumi/azure-nextgen";
 import { RandomUuid } from "@pulumi/random";
 import env from "../environment";
 
-const { config, resourceGroup, resourceName } = env;
+const { resourceGroup, resourceName } = env;
 const workspaceName = resourceName("log");
 const uuid = new RandomUuid("log-uuid");
 
