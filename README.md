@@ -1,7 +1,8 @@
 # AksKickStarters
-A pulumi project to spin up an azure kubernetes service with the following properties out of the box:
+A pulumi project to spin up an azure kubernetes service with the following properties/services out of the box:
 - [Application gateway ingress controller](https://docs.microsoft.com/en-us/azure/application-gateway/ingress-controller-overview)
 - [AAD pod identity](https://github.com/Azure/aad-pod-identity)
+- [Kubernetes Event-driven Autoscaling](https://keda.sh/)
 - [Azure Monitor for containers](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-overview)
 - [Diagnostic logs for Application gateway](https://docs.microsoft.com/en-us/azure/application-gateway/application-gateway-diagnostics)
 - [Ephemeral nodes](https://docs.microsoft.com/en-us/azure/aks/cluster-configuration#ephemeral-os), [Auto scaling](https://docs.microsoft.com/en-us/azure/aks/cluster-autoscaler), and [Azure CNI](https://docs.microsoft.com/en-us/azure/aks/configure-azure-cni)
