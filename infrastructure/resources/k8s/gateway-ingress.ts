@@ -5,6 +5,7 @@ import { aadPodIdentity } from "./aad-pod-Identity";
 import { k8sProvider } from "../cluster";
 import { gateway } from "../gateway";
 import env from "../../environment";
+import { removeHelmHooksTransformation } from "./remove-hooks";
 
 const { resourceGroup, currentSubscription, Assignment } = env;
 const idName = `id-ingress-${env.name}`;
@@ -60,6 +61,7 @@ export const agic = new k8s.helm.v3.Chart(
     version: "1.4.0",
     namespace: ns.id,
     values,
+    transformations: [removeHelmHooksTransformation],
     fetchOpts: {
       repo:
         "https://appgwingress.blob.core.windows.net/ingress-azure-helm-package",

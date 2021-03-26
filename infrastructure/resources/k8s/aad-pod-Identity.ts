@@ -2,6 +2,7 @@ import * as pulumi from "@pulumi/pulumi";
 import * as k8s from "@pulumi/kubernetes";
 import { clientId, k8sProvider, cluster } from "../cluster";
 import env from "../../environment";
+import { removeHelmHooksTransformation } from "./remove-hooks";
 const { currentSubscription, resourceGroup, Assignment } = env;
 
 const nodesResourceGroupId = pulumi
@@ -50,6 +51,7 @@ export const aadPodIdentity = new k8s.helm.v3.Chart(
     chart: "aad-pod-identity",
     version: "3.0.3",
     namespace: ns.id,
+    transformations: [removeHelmHooksTransformation],
     fetchOpts: {
       repo:
         "https://raw.githubusercontent.com/Azure/aad-pod-identity/master/charts",
