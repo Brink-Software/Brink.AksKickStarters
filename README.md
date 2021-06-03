@@ -6,6 +6,7 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 - [Azure Monitor for containers](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-overview)
 - [Diagnostic logs for Application gateway](https://docs.microsoft.com/en-us/azure/application-gateway/application-gateway-diagnostics)
 - [Ephemeral nodes](https://docs.microsoft.com/en-us/azure/aks/cluster-configuration#ephemeral-os), [Auto scaling](https://docs.microsoft.com/en-us/azure/aks/cluster-autoscaler), and [Azure CNI](https://docs.microsoft.com/en-us/azure/aks/configure-azure-cni)
+- [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry/)
 
 ## Pre-Requisites
 - [NodeJs](https://nodejs.org/en/)
@@ -13,8 +14,6 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 - [Azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Helm](https://helm.sh/docs/intro/install/)
-
-
 
 ## Getting started
 Ensure that the azure cli is logged in and that you have selected the subcription you wat to use:
@@ -77,7 +76,11 @@ spec:
 ```
 
 ### Link Azure Container Registry
-You can allow aks to use your own container registry to do this run the following command:
+You can specify an existing container registry to use in the deployment.
+
+first, it is recommended to disable the deployment of the default container registry. See [Configuration](#Configuration) on how to do this.
+
+ To use an existing container run the following command:
 ```
 pulumi config set --path acrResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.ContainerRegistry/registries/<registry-name>
 ```
@@ -90,6 +93,21 @@ pulumi config set --path windows.enabled true
 ```
 
 ## Configuration
+
+Basic configuration is defined in the [configuration file](Pulumi.dev.yaml). Value can be overridden using `pulumi config set --path [configuration-setting-name] [value]`. E.g.: `pulumi config set --path kskickstart:includeContainerRegistry "false"`.
+
+### Available settings:
+| Name  |Default Value   |Description   |
+|---|---|---|
+|applicationGatewayTier   |Standard_v2   |[Tier to use for the Application Gateway](https://azure.microsoft.com/en-us/pricing/details/application-gateway/). Accepted values: Standard_Small, Standard_Medium, Standard_Large, WAF_Medium, WAF_Large, Standard_v2, WAF_v2   |
+|defaultImage   |nginx   |The docker image to use for the demo pod   |
+|includeContainerRegistry   |"true"   |Whether or not a container registry should be provisioned during the deployment. Set this to false to [attach an existing registry](#Link-Azure-Container-Registry).   |
+|kubernetesVersion   | 1.20.7   |The kubernetes version to deploy   |
+|location   | WestEurope   |Azure region to deploy to |
+|name   | akskickstart   |Name of the pulumi stack. Also used in the name of the Azure resource group |
+|keyVaultResourceId   |\<none>     |Id of an Azure Key Vault resource. E.g.: `/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.KeyVault/vaults/<keyvault-name>`|
+|sslCertificates[0].name   |\<none>     |Name of the SSL certificate to use. See [the SSL section](#Add-SSL-certificates-from-Keyvault)|
+|sslCertificates[0].secret   |\<none>     |Reference to the Key Vault secrert, E.g.: `https://<keyvault-name>.vault.azure.net/secrets/<certificate-name>`. See [the SSL section](#Add-SSL-certificates-from-Keyvault)|
 
 ## Issues
 
