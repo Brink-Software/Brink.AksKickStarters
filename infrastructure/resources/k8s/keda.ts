@@ -19,7 +19,7 @@ export const keda = new k8s.helm.v3.Chart(
   "keda",
   {
     chart: "keda",
-    version: "2.2.0",
+    version: "2.3.2",
     namespace: ns.id,
     fetchOpts: {
       repo:
