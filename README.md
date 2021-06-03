@@ -94,7 +94,7 @@ pulumi config set --path windows.enabled true
 
 ## Configuration
 
-Basic configuration is defined in the [configuration file](Pulumi.dev.yaml). Value can be overridden using `pulumi config set --path [configuration-setting-name] [value]`. E.g.: `pulumi config set --path kskickstart:includeContainerRegistry "false"`.
+Basic configuration is defined in the [configuration file](infrastructure/Pulumi.dev.yaml). Values can be overridden using `pulumi config set --path [configuration-setting-name] [value]`. E.g.: `pulumi config set --path kskickstart:includeContainerRegistry "false"`.
 
 ### Available settings:
 | Name  |Default Value   |Description   |
