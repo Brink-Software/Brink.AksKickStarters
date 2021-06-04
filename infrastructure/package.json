@@ -1,14 +1,14 @@
 {
     "name": "akskickstart",
     "devDependencies": {
-        "@types/node": "^10.0.0"
+        "@types/node": "^10.17.60"
     },
     "dependencies": {
-        "@pulumi/azure": "^3.52.1",
+        "@pulumi/azure": "^3.56.0",
         "@pulumi/azure-nextgen": "^0.6.1",
-        "@pulumi/kubernetes": "^2.8.3",
-        "@pulumi/pulumi": "^2.23.1",
-        "@pulumi/random": "^3.1.1",
-        "@pulumi/tls": "^3.3.1"
+        "@pulumi/kubernetes": "^2.9.1",
+        "@pulumi/pulumi": "^2.25.2",
+        "@pulumi/random": "^3.2.0",
+        "@pulumi/tls": "^3.4.0"
     }
 }
