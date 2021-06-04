@@ -93,6 +93,8 @@ const ingress = new k8s.networking.v1.Ingress(
           http: {
             paths: [
               {
+                pathType: 'Prefix',
+                path: '/',
                 backend: {
                   service: {
                     name: defaultBackend,
@@ -204,6 +206,8 @@ if (!!windowspool) {
             http: {
               paths: [
                 {
+                  pathType: 'Prefix',
+                  path: '/',
                   backend: {
                     service: {
                       name: windowsDefaultBackend,
