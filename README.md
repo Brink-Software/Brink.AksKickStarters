@@ -110,6 +110,10 @@ Basic configuration is defined in the [configuration file](infrastructure/Pulumi
 |sslCertificates[0].name   |\<none>     |Name of the SSL certificate to use. See [the SSL section](#Add-SSL-certificates-from-Keyvault)|
 |sslCertificates[0].secret   |\<none>     |Reference to the Key Vault secrert, E.g.: `https://<keyvault-name>.vault.azure.net/secrets/<certificate-name>`. See [the SSL section](#Add-SSL-certificates-from-Keyvault)|
 
+## Clean up
+
+To remove the provisioned resource, run `pulumi destroy`.
+
 ## Issues
 
 - Runnning `pulumi destroy` will give you the following error  `error: 'azureassignedidentities.aadpodidentity.k8s.io' timed out waiting to be Ready`. The only way to get arround this is to export the stack and remove the offending item and then import the stack again. See [pulumi stack](https://www.pulumi.com/docs/reference/cli/pulumi_stack/) for more info.
