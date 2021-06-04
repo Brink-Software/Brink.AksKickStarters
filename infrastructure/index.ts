@@ -79,7 +79,7 @@ const annotations = sslCertificates.apply((certificates) => {
   }
   return result;
 });
-const ingress = new k8s.networking.v1beta1.Ingress(
+const ingress = new k8s.networking.v1.Ingress(
   defaultBackend,
   {
     metadata: {
@@ -94,8 +94,12 @@ const ingress = new k8s.networking.v1beta1.Ingress(
             paths: [
               {
                 backend: {
-                  serviceName: defaultBackend,
-                  servicePort: 80,
+                  service: {
+                    name: defaultBackend,
+                    port: {
+                      number: 80,
+                    },
+                  },
                 },
               },
             ],
@@ -107,7 +111,10 @@ const ingress = new k8s.networking.v1beta1.Ingress(
   options
 );
 if (!!windowspool) {
-  const windowsOptions = { provider: k8sProvider, dependsOn: [agic, windowspool] };
+  const windowsOptions = {
+    provider: k8sProvider,
+    dependsOn: [agic, windowspool],
+  };
   const windowsDefaultBackend = "windows-default-backend";
   const windowsAppLabels = {
     app: windowsDefaultBackend,
@@ -183,7 +190,7 @@ if (!!windowspool) {
     "appgw.ingress.kubernetes.io/override-frontend-port": "8080",
   };
 
-  const ingress = new k8s.networking.v1beta1.Ingress(
+  const ingress = new k8s.networking.v1.Ingress(
     windowsDefaultBackend,
     {
       metadata: {
@@ -198,8 +205,12 @@ if (!!windowspool) {
               paths: [
                 {
                   backend: {
-                    serviceName: windowsDefaultBackend,
-                    servicePort: 80,
+                    service: {
+                      name: windowsDefaultBackend,
+                      port: {
+                        number: 80,
+                      },
+                    },
                   },
                 },
               ],
