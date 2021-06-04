@@ -101,6 +101,7 @@ Basic configuration is defined in the [configuration file](infrastructure/Pulumi
 |---|---|---|
 |applicationGatewayTier   |Standard_v2   |[Tier to use for the Application Gateway](https://azure.microsoft.com/en-us/pricing/details/application-gateway/). Accepted values: Standard_Small, Standard_Medium, Standard_Large, WAF_Medium, WAF_Large, Standard_v2, WAF_v2   |
 |defaultImage   |nginx   |The docker image to use for the demo pod   |
+|windows.enabled   |false   |It true, a windows node pool will be provisioned as well   |
 |includeContainerRegistry   |"true"   |Whether or not a container registry should be provisioned during the deployment. Set this to false to [attach an existing registry](#Link-Azure-Container-Registry).   |
 |kubernetesVersion   | 1.20.7   |The kubernetes version to deploy   |
 |location   | WestEurope   |Azure region to deploy to |
@@ -108,6 +109,10 @@ Basic configuration is defined in the [configuration file](infrastructure/Pulumi
 |keyVaultResourceId   |\<none>     |Id of an Azure Key Vault resource. E.g.: `/subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.KeyVault/vaults/<keyvault-name>`|
 |sslCertificates[0].name   |\<none>     |Name of the SSL certificate to use. See [the SSL section](#Add-SSL-certificates-from-Keyvault)|
 |sslCertificates[0].secret   |\<none>     |Reference to the Key Vault secrert, E.g.: `https://<keyvault-name>.vault.azure.net/secrets/<certificate-name>`. See [the SSL section](#Add-SSL-certificates-from-Keyvault)|
+
+## Clean up
+
+To remove the provisioned resource, run `pulumi destroy`.
 
 ## Issues
 
