@@ -47,6 +47,7 @@ const values = pulumi
         type: "aadPodIdentity",
         identityResourceID,
         identityClientID,
+        namespaced: true
       },
       rbac: {
         enabled: true,
