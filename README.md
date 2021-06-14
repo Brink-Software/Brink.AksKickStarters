@@ -112,7 +112,7 @@ Basic configuration is defined in the [configuration file](infrastructure/Pulumi
 
 ## Clean up
 
-To remove the provisioned resource, run `pulumi destroy`.
+To remove the provisioned resource, run `pulumi destroy --preserve-config`. The --preserve-config flag prevents the configuration file from being removed as well in the process.
 
 ## Issues
 
