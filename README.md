@@ -16,7 +16,7 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 - [Helm](https://helm.sh/docs/intro/install/)
 
 ## Getting started
-Ensure that the azure cli is logged in and that you have selected the subcription you wat to use:
+Ensure that the azure cli is logged in and that you have selected the subcription you want to use:
 ```
 az login
 az account set -s <your-subcription-id>
@@ -117,8 +117,4 @@ To remove the provisioned resource, run `pulumi destroy --preserve-config`. The 
 ## Issues
 
 - Runnning `pulumi destroy` will give you the following error  `error: 'azureassignedidentities.aadpodidentity.k8s.io' timed out waiting to be Ready`. The only way to get arround this is to export the stack and remove the offending item and then import the stack again. See [pulumi stack](https://www.pulumi.com/docs/reference/cli/pulumi_stack/) for more info.
-
-
-
-
-
+- Running `pulumi up` on an azure subscription with policies in place, can result in pulumi not being able to create items, because of said resource groups. Please use a subscription not having policies in place (using `az account set -s <your-subcription-id>`) or disable the policies.
