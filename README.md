@@ -43,6 +43,17 @@ pulumi up
 Confirm update, and after a while the deployment should be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
 If you visit that address you should see the default nginx welcome page.
 
+<!-- markdownlint-disable MD033 -->
+<p>
+<details>
+  <summary>&#x261d; &#xfe0f; Hint </summary>
+<ul>  
+  <p>If you are working in a shared Azure subscription you can override the default resource group name to cater for individual resource group names. See section <a href="#Configuration">Configuration</a> in this document.</p>
+</ul>
+</details>
+</p>
+<!-- markdownlint-enable MD033 -->
+
 After the deployment two resource groups (rg-akskickstart-dev, rg-akskickstart-dev-nodes) are created. Here is a schematic overview of the resources deployed:
 
 ![architecture drawing](./images/akskickstarter.PNG)
