@@ -46,7 +46,7 @@ If you visit that address you should see the default nginx welcome page.
 <!-- markdownlint-disable MD033 -->
 <p>
 <details>
-  <summary>&#x261d; &#xfe0f; Hint </summary>
+  <summary>&#x261d; &#xfe0f; Tip: Working in a shared Azure subscription</summary>
 <ul>  
   <p>If you are working in a shared Azure subscription you can override the default resource group name to cater for individual resource group names. See section <a href="#Configuration">Configuration</a> in this document.</p>
 </ul>
