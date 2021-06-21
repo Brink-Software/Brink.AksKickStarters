@@ -49,7 +49,7 @@ If you visit that address you should see the default nginx welcome page.
 <details>
   <summary>&#x261d; &#xfe0f; Tip: Working in a shared Azure subscription</summary>
 <ul>  
-  <p>If you are working in a shared Azure subscription you can override the default resource group name to cater for individual resource group names. See section <a href="#Configuration">Configuration</a> in this document.</p>
+  <p>If you are working in a shared Azure subscription you can override the default resource group name to cater for individual resource group names. See section <a href="#Configuration">Configuration</a> in this document.</p><p>The resource group name is controlled with the <a href="https://github.com/Ibis-Software/AksKickStarters/blob/master/infrastructure/Pulumi.dev.yaml#L7">akskickstart:name</a> setting<p>
 </ul>
 </details>
 </p>
@@ -129,8 +129,3 @@ To remove the provisioned resource, run `pulumi destroy --preserve-config`. The 
 ## Issues
 
 - Runnning `pulumi destroy` will give you the following error  `error: 'azureassignedidentities.aadpodidentity.k8s.io' timed out waiting to be Ready`. The only way to get arround this is to export the stack and remove the offending item and then import the stack again. See [pulumi stack](https://www.pulumi.com/docs/reference/cli/pulumi_stack/) for more info.
-
-
-
-
-
