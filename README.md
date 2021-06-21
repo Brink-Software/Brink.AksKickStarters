@@ -14,9 +14,10 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 - [Azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Helm](https://helm.sh/docs/intro/install/)
+- An [Azure](https://azure.microsoft.com/en-us/free/) subscription and an account with permissions to assing permissions
 
 ## Getting started
-Ensure that the azure cli is logged in and that you have selected the subcription you wat to use:
+Ensure that the azure cli is logged in and that you have selected the subscription you want to use:
 ```
 az login
 az account set -s <your-subcription-id>
