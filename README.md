@@ -14,9 +14,12 @@ A pulumi project to spin up an azure kubernetes service with the following prope
 - [Azure cli](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Helm](https://helm.sh/docs/intro/install/)
+- An [Azure](https://azure.microsoft.com/en-us/free/) subscription and an account with permissions to assign permissions
 
 ## Getting started
-Ensure that the azure cli is logged in and that you have selected the subcription you want to use:
+
+Ensure that the azure cli is logged in and that you have selected the subscription you want to use:
+
 ```
 az login
 az account set -s <your-subcription-id>
@@ -42,6 +45,17 @@ pulumi up
 ```
 Confirm update, and after a while the deployment should be done and you should see an output simular to this `publicIPAddress: "40.74.34.86"`.
 If you visit that address you should see the default nginx welcome page.
+
+<!-- markdownlint-disable MD033 -->
+<p>
+<details>
+  <summary>&#x261d; &#xfe0f; Tip: Working in a shared Azure subscription</summary>
+<ul>  
+  <p>If you are working in a shared Azure subscription you can override the default resource group name to cater for individual resource group names. See section <a href="#Configuration">Configuration</a> in this document.</p><p>The resource group name is controlled with the <a href="https://github.com/Ibis-Software/AksKickStarters/blob/master/infrastructure/Pulumi.dev.yaml#L7">akskickstart:name</a> setting<p>
+</ul>
+</details>
+</p>
+<!-- markdownlint-enable MD033 -->
 
 After the deployment two resource groups (rg-akskickstart-dev, rg-akskickstart-dev-nodes) are created. Here is a schematic overview of the resources deployed:
 
@@ -118,3 +132,4 @@ To remove the provisioned resource, run `pulumi destroy --preserve-config`. The 
 
 - Runnning `pulumi destroy` will give you the following error  `error: 'azureassignedidentities.aadpodidentity.k8s.io' timed out waiting to be Ready`. The only way to get arround this is to export the stack and remove the offending item and then import the stack again. See [pulumi stack](https://www.pulumi.com/docs/reference/cli/pulumi_stack/) for more info.
 - Running `pulumi up` on an azure subscription with policies in place, can result in pulumi not being able to create items, because of said resource groups. Please use a subscription not having policies in place (using `az account set -s <your-subcription-id>`) or disable the policies.
+
