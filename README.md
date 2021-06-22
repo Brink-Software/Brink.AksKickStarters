@@ -65,7 +65,7 @@ After adding the optional items you want you should run `pulumi up` to update yo
 ### Add SSL certificates from Keyvault
 You can link you wildcard ssl certificates from keyvault by adding them to the pulumi configuration.   
 ```
-pulumi config set --path pulumi --path keyVaultResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.KeyVault/vaults/<keyvault-name>
+pulumi config set --path --path keyVaultResourceId /subscriptions/<subscriptionId>/resourceGroups/<resourceGroup>/providers/Microsoft.KeyVault/vaults/<keyvault-name>
 
 pulumi config set --path "sslCertificates[0].name" <ssl-certificate-name>
 
