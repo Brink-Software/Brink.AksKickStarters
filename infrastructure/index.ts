@@ -28,12 +28,19 @@ export const ResourceGroupUrl = pulumi
   .all([domain, SubcriptionId, ResourceGroupName])
   .apply(
     ([domain, subcriptionId, resourceGroupName]) =>
-      `https://portal.azure.com/#@${domain}/resource/subscriptions/${subcriptionId}/resourceGroups/${resourceGroupName}/overview`
+      `https://portal.azure.com/#@${domain}/resource/subscriptions/${subcriptionId}/resourceGroups/${resourceGroupName}`
   );
 
 export const GatewayUrl = pulumi
-  .all([domain, SubcriptionId, ResourceGroupName, GatewayName])
+  .all([ResourceGroupUrl, GatewayName])
   .apply(
-    ([domain, subcriptionId, resourceGroupName, gatewayName]) =>
-      `https://portal.azure.com/#@${domain}/resource/subscriptions/${subcriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/applicationGateways/${gatewayName}/overview`
+    ([resourceGroupUrl, gatewayName]) =>
+      `${resourceGroupUrl}/providers/Microsoft.Network/applicationGateways/${gatewayName}`
   );
+
+export const ClusterUrl = pulumi
+  .all([ResourceGroupUrl, ClusterName])
+  .apply(
+    ([resourceGroupUrl, clusterName]) =>
+      `${resourceGroupUrl}/providers/Microsoft.ContainerService/managedClusters/${clusterName}`
+  );  
