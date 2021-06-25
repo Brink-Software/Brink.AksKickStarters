@@ -1,10 +1,10 @@
-import * as azure from "@pulumi/azure-nextgen";
+import * as azure from "@pulumi/azure-native";
 import env from "../environment";
 const { resourceGroup, resourceName } = env;
 
 const virtualNetworkName = resourceName("vnet");
 
-const virtualNetwork = new azure.network.latest.VirtualNetwork(
+const virtualNetwork = new azure.network.VirtualNetwork(
   virtualNetworkName,
   {
     virtualNetworkName,
@@ -16,14 +16,14 @@ const virtualNetwork = new azure.network.latest.VirtualNetwork(
   }
 );
 
-export const clusterSubnet = new azure.network.latest.Subnet("cluster-subnet", {
+export const clusterSubnet = new azure.network.Subnet("cluster-subnet", {
   addressPrefix: "10.240.0.0/16",
   resourceGroupName: resourceGroup.name,
   subnetName: "cluster-subnet",
   virtualNetworkName: virtualNetwork.name,
 });
 
-export const gatewaySubnet = new azure.network.latest.Subnet("gateway-subnet", {
+export const gatewaySubnet = new azure.network.Subnet("gateway-subnet", {
   addressPrefix: "10.10.0.0/24",
   resourceGroupName: resourceGroup.name,
   subnetName: "gateway-subnet",

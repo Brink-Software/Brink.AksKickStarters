@@ -18,6 +18,7 @@ const ns = new k8s.core.v1.Namespace(
 export const keda = new k8s.helm.v3.Chart(
   "keda",
   {
+    skipAwait: true,
     chart: "keda",
     version: "2.3.2",
     namespace: ns.id,

@@ -1,5 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as azure from "@pulumi/azure-nextgen";
+import * as azure from "@pulumi/azure-native";
 import * as k8s from "@pulumi/kubernetes";
 import { aadPodIdentity } from "./aad-pod-Identity";
 import { k8sProvider } from "../cluster";
@@ -9,7 +9,7 @@ import { removeHelmHooksTransformation } from "./remove-hooks";
 
 const { resourceGroup, currentSubscription, Assignment } = env;
 const idName = `id-ingress-${env.name}`;
-export const ingressId = new azure.managedidentity.latest.UserAssignedIdentity(
+export const ingressId = new azure.managedidentity.UserAssignedIdentity(
   idName,
   {
     resourceName: idName,

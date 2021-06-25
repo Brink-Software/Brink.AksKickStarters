@@ -1,5 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as azure from "@pulumi/azure-nextgen";
+import * as azure from "@pulumi/azure-native";
 import { AccessPolicy } from "@pulumi/azure/keyvault";
 import { gatewaySubnet } from "./vnet";
 import { workspace } from "./logs";
@@ -19,7 +19,7 @@ const resourceId = (resource: string) =>
         `/subscriptions/${subscription.subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.Network/applicationGateways/${applicationGatewayName}/${resource}/${defaultName}`
     );
 const idName = `id-${applicationGatewayName}`;
-const gatewayId = new azure.managedidentity.latest.UserAssignedIdentity(
+const gatewayId = new azure.managedidentity.UserAssignedIdentity(
   idName,
   {
     resourceName: idName,
@@ -29,7 +29,7 @@ const gatewayId = new azure.managedidentity.latest.UserAssignedIdentity(
 );
 let dependsOn: pulumi.Resource[] = [];
 if (keyVaultResourceId) {
-  var keyvault = azure.keyvault.latest.Vault.get(
+  var keyvault = azure.keyvault.Vault.get(
     "keyvault",
     keyVaultResourceId
   );
@@ -47,7 +47,7 @@ export const sslCertificates =
   pulumi.Output.create([]);
 const pipName = resourceName("pip");
 
-export const publicIP = new azure.network.latest.PublicIPAddress(pipName, {
+export const publicIP = new azure.network.PublicIPAddress(pipName, {
   resourceGroupName: resourceGroup.name,
   publicIpAddressName: pipName,
   location: resourceGroup.location,
@@ -57,7 +57,7 @@ export const publicIP = new azure.network.latest.PublicIPAddress(pipName, {
   publicIPAllocationMethod: "Static",
 });
 
-export const gateway = new azure.network.latest.ApplicationGateway(
+export const gateway = new azure.network.ApplicationGateway(
   applicationGatewayName,
   {
     applicationGatewayName,
@@ -154,6 +154,9 @@ export const gateway = new azure.network.latest.ApplicationGateway(
   },
   {
     dependsOn,
+    customTimeouts : {
+      create: '60m'
+    }
   }
 );
 const _ = new azure.insights.v20170501preview.DiagnosticSetting(

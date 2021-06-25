@@ -1,4 +1,4 @@
-import * as azure from "@pulumi/azure-nextgen";
+import * as azure from "@pulumi/azure-native";
 import { RandomUuid } from "@pulumi/random";
 import env from "../environment";
 
@@ -7,7 +7,7 @@ const workspaceName = resourceName("log");
 const uuid = new RandomUuid("log-uuid");
 
 
-export const workspace = new azure.operationalinsights.v20200801.Workspace(
+export const workspace = new azure.operationalinsights.Workspace(
   workspaceName,
   {
     workspaceName : uuid.result.apply(u => workspaceName + u),

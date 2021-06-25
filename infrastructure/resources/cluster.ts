@@ -1,5 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as azure from "@pulumi/azure-nextgen";
+import * as azure from "@pulumi/azure-native";
 import * as k8s from "@pulumi/kubernetes";
 import * as random from "@pulumi/random";
 import * as tls from "@pulumi/tls";
@@ -19,11 +19,11 @@ const sshKey = new tls.PrivateKey("ssh-key", {
   algorithm: "RSA",
   rsaBits: 4096,
 });
-const managedClusterName = resourceName("aks");
-const nodesResourceGroupName = resourceGroup.name.apply(
+export const managedClusterName = resourceName("aks");
+export const nodesResourceGroupName = resourceGroup.name.apply(
   (name) => name + "-nodes"
 );
-export const cluster = new azure.containerservice.latest.ManagedCluster(
+export const cluster = new azure.containerservice.ManagedCluster(
   managedClusterName,
   {
     resourceName: managedClusterName,
@@ -86,7 +86,7 @@ export const cluster = new azure.containerservice.latest.ManagedCluster(
 );
 
 const windowsConfig = config.getObject<WindowsConfig>("windows");
-export const windowspool = windowsConfig?.enabled ?new azure.containerservice.latest.AgentPool(
+export const windowspool = windowsConfig?.enabled ?new azure.containerservice.AgentPool(
   "windowspool",
   {
     agentPoolName: "win",
@@ -111,9 +111,10 @@ export const clientId = cluster.identityProfile.apply(
   (identityProfile) => identityProfile?.kubeletidentity.objectId || ""
 );
 const includeContainerRegistry = config.getBoolean("includeContainerRegistry");
+let acr = undefined;
 if(includeContainerRegistry){
-  const acrName = new random.RandomUuid("acr-suffic").result.apply(uuid => "arc" + uuid.replace('-', '').substring(0,6));
-  const acr = new azure.containerregistry.latest.Registry("acr", {
+  const acrName  = new random.RandomUuid("acr-suffic").result.apply(uuid => "arc" + uuid.replace('-', '').substring(0,6));
+  acr = new azure.containerregistry.Registry("acr", {
     registryName : acrName,
     resourceGroupName: resourceGroup.name,
     sku : {
@@ -139,7 +140,7 @@ if (acrResourceId) {
 const creds = pulumi
   .all([cluster.name, resourceGroup.name])
   .apply(([clusterName, rgName]) => {
-    return azure.containerservice.latest.listManagedClusterUserCredentials({
+    return azure.containerservice.listManagedClusterUserCredentials({
       resourceGroupName: rgName,
       resourceName: clusterName,
     });
@@ -151,10 +152,13 @@ export const kubeconfig = encoded.apply((enc) =>
   Buffer.from(enc, "base64").toString()
 );
 
-export const k8sProvider = new k8s.Provider("aksK8s", {
+export const k8sProvider = new k8s.Provider("kubernetesProvider", {
   kubeconfig,
   suppressDeprecationWarnings: true,
 });
+
+export const acrResource = acr;
+
 
 interface WindowsConfig {
   enabled: boolean;

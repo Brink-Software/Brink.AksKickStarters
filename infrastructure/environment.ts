@@ -1,5 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as azure from "@pulumi/azure-nextgen";
+import * as azure from "@pulumi/azure-native";
 import { getSubscription } from "@pulumi/azure/core";
 import { Assignment } from "@pulumi/azure/authorization";
 
@@ -18,7 +18,7 @@ const resourceName = (prefix: string, options: any = {}) => {
 const currentSubscription = getSubscription({});
 
 const resourceGroupName = resourceName("rg");
-const resourceGroup = new azure.resources.latest.ResourceGroup(
+const resourceGroup = new azure.resources.ResourceGroup(
   resourceGroupName,
   {
     location,
